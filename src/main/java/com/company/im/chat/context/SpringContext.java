@@ -2,6 +2,9 @@ package com.company.im.chat.context;
 
 
 import com.company.im.chat.config.ClientConfig;
+import com.company.im.chat.message.chat.ChatService;
+import com.company.im.chat.message.friend.FriendService;
+import com.company.im.chat.message.user.UserService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -22,6 +25,12 @@ public class SpringContext implements ApplicationContextAware {
 
     private static ClientConfig clientConfig;
 
+    private static UserService userService;
+
+    private static FriendService friendService;
+
+    private static ChatService chatService;
+
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext=applicationContext;
@@ -39,5 +48,32 @@ public class SpringContext implements ApplicationContextAware {
     @Resource
     public void setClientConfig(ClientConfig clientConfig) {
         SpringContext.clientConfig = clientConfig;
+    }
+
+    public static UserService getUserService() {
+        return userService;
+    }
+
+    @Resource
+    public  void setUserService(UserService userService) {
+        SpringContext.userService = userService;
+    }
+
+    public static FriendService getFriendService() {
+        return friendService;
+    }
+
+    @Resource
+    public void setFriendService(FriendService friendService) {
+        SpringContext.friendService = friendService;
+    }
+
+    public static ChatService getChatService() {
+        return chatService;
+    }
+
+    @Resource
+    public void setChatService(ChatService chatService) {
+        SpringContext.chatService = chatService;
     }
 }
