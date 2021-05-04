@@ -15,4 +15,10 @@ public class TestMsgRouter {
         var message= MessageRouter.Instance.createPacket(PacketType.ResUserLogin);
         logger.info(String.valueOf(message.getPacketID()));
     }
+
+    @Test
+    public void testGetRegisterPacket(){
+        var message= MessageRouter.Instance.createPacket(PacketType.ReqUserRegister);
+        logger.info(String.valueOf(message.getPacketID()));
+    }
 }

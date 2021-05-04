@@ -7,6 +7,7 @@ import com.company.im.chat.handle.PacketEncodeHandle;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -15,12 +16,13 @@ import io.netty.handler.codec.LengthFieldPrepender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.InetSocketAddress;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /*
 **Chat客户端
  */
-public class ChatClient implements ClientNode{
+public class ChatClient {
 
     private static  final Logger logger= LoggerFactory.getLogger(ChatClient.class);
 
@@ -30,57 +32,56 @@ public class ChatClient implements ClientNode{
 
     private AtomicInteger reconnectTimes;
 
-    private EventLoopGroup worker=new NioEventLoopGroup(1);
-
-    @Override
-    public void init() {
-        var config= SpringContext.getClientConfig();
-        host= config.getClientIP();
-        port=config.getClientPort();
-    }
-
-    @Override
     public void start() {
-        /**
-         * Netty用于接收客户端请求的线程池职责如下。
-         * （1）接收客户端TCP连接，初始化Channel参数；
-         * （2）将链路状态变更事件通知给ChannelPipeline
-         */
-        try {
-            Bootstrap bootstrap=new Bootstrap();
-            bootstrap.group(worker)
-                    .channel(NioSocketChannel.class)
-                    .remoteAddress(host,port)
-                    .handler(new ChannelInitializer<SocketChannel> (){
+        EventLoopGroup group = new NioEventLoopGroup(1);
+        logger.info("ready to start client");
+        try{
+            Bootstrap b  = new Bootstrap();
+            b.group(group).channel(NioSocketChannel.class)
+                    .handler(new ChannelInitializer<SocketChannel>(){
                         @Override
-                        protected void initChannel(SocketChannel socketChannel) throws Exception {
-                            var pipeLine=socketChannel.pipeline();
-                            pipeLine.addLast(new PacketDecodeHandle(1024*4,0,
-                                    4,0,0));
-                            pipeLine.addLast(new LengthFieldPrepender(4));
-                            pipeLine.addLast(new PacketEncodeHandle());
-                            pipeLine.addLast(new IOHandle());
+                        protected void initChannel(SocketChannel arg0)
+                                throws Exception {
+                            ChannelPipeline pipeline = arg0.pipeline();
+                            pipeline.addLast(new PacketDecodeHandle(1024*4,0,4,0,4));
+                            pipeline.addLast(new LengthFieldPrepender(4));
+                            pipeline.addLast(new PacketEncodeHandle());
+                            pipeline.addLast(new IOHandle());
                         }
+
                     });
-            //绑定端口
-            ChannelFuture channelFuture=bootstrap.connect().sync();
-            channelFuture.channel().closeFuture().sync();
-        }catch (Exception e){
-            logger.error("connect exception: try reconncet"+e.getMessage());
+            host="127.00.1";
+            port=9090;
+            ChannelFuture f = b.connect(new InetSocketAddress(host, port))
+                    .sync();
+            f.channel().closeFuture().sync();
+            logger.info("client start success");
+        }catch(Exception e){
+           logger.info(e.getMessage());
+        }finally{
+            //          group.shutdownGracefully();  //这里不再是优雅关闭了
+            //设置最大重连次数，防止服务端正常关闭导致的空循环
+            if (reconnectTimes.get() < 10) {
+                reConnectServer();
+            }
+        }
+
+    }
+
+    /**
+     * 断线重连
+     */
+    private void reConnectServer(){
+        try {
+            Thread.sleep(5000);
+            //logger.error("Client try to reconnect");
+            start();
             reconnectTimes.incrementAndGet();
-            reConnect();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
     }
 
-    @Override
-    public void reConnect() {
-        if(reconnectTimes.get()>10){
-            logger.error(" out max reconnect times,it will exit");
-            worker.shutdownGracefully();
-        }
-        start();
-    }
 
 
 }

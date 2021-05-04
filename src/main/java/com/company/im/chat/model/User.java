@@ -1,9 +1,12 @@
 package com.company.im.chat.model;
 
-public class User {
-    private String userName;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
-    private String password;
+public class User {
+    private StringProperty userNameProperty;
+
+    private StringProperty passwordProperty;
 
     private String sex;
 
@@ -12,8 +15,8 @@ public class User {
     private String signature;
 
     public User(String userName, String password, String sex, int age, String signature) {
-        this.userName = userName;
-        this.password = password;
+        this.userNameProperty = new SimpleStringProperty(userName);
+        this.passwordProperty = new SimpleStringProperty(password);
         this.sex = sex;
         this.age = age;
         this.signature = signature;
@@ -23,20 +26,28 @@ public class User {
 
     }
 
-    public String getUserName() {
-        return userName;
+    public static User createUser(String userName, String password, String sex, int age, String signature){
+        return new User(userName,password,sex,age,signature);
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public final StringProperty getUserNameProperty(){
+        return userNameProperty;
     }
 
-    public String getPassword() {
-        return password;
+    public final StringProperty getPasswordProperty(){
+        return passwordProperty;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getUserName(){
+        return userNameProperty.get();
+    }
+
+    public String getPassword(){
+        return  passwordProperty.get();
+    }
+
+    public void setUserNameProperty(String userName){
+        this.userNameProperty=new SimpleStringProperty(userName);
     }
 
     public String getSex() {
@@ -65,8 +76,8 @@ public class User {
 
     @Override
     public String toString() {
-        return "userName:"+userName+
-                ",password:"+password+
+        return "userName:"+userNameProperty.get()+
+                ",password:"+passwordProperty.get()+
                 ",sex:"+sex+
                 ",age:"+age+
                 ",signature:"+signature;

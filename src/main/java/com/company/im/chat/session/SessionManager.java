@@ -39,4 +39,14 @@ public enum SessionManager {
         session.sendPacket(packet);
     }
 
+    /*
+    **是否连接服务器
+     */
+    public boolean isConnectServer(){
+        if(session==null){
+            return false;
+        }
+        return session.isConnectedServer();
+    }
+
 }

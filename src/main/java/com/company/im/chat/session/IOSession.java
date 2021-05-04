@@ -46,6 +46,16 @@ public class IOSession {
 
     }
 
+    public boolean isConnectedServer(){
+        if(channel==null){
+            return false;
+        }
+        if(!channel.isOpen()||!channel.isActive()){
+            return  false;
+        }
+       return true;
+    }
+
     public Channel getChannel() {
         return channel;
     }

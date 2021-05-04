@@ -5,17 +5,17 @@ import com.company.im.chat.message.AbstractPacket;
 import io.netty.buffer.ByteBuf;
 
 /*
-**用户注册消息回应（来自服务器端）
+**用户注册消息回应（来自服务器端，返回注册后的结果和用户信息）
  */
 public class ResUserRegisterPacket extends AbstractPacket {
 
+    private String userName;
+
     private byte result;
 
-    private String message;
-
-    public ResUserRegisterPacket(byte result, String message) {
+    public ResUserRegisterPacket(String userName, byte result) {
+        this.userName=userName;
         this.result = result;
-        this.message = message;
     }
 
     public ResUserRegisterPacket() {
@@ -33,15 +33,19 @@ public class ResUserRegisterPacket extends AbstractPacket {
 
     @Override
     public void readBody(ByteBuf byteBuf) {
+        userName=readByteToString(byteBuf);
         result=byteBuf.readByte();
-        message=readByteToString(byteBuf);
     }
 
     public byte getResult() {
         return result;
     }
 
-    public String getMessage() {
-        return message;
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

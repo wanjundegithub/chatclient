@@ -1,6 +1,6 @@
 package com.company.im.chat.model;
 
-public class Friend {
+public class Friend  {
 
     private String userName;
     /*
@@ -16,7 +16,8 @@ public class Friend {
 
     private String sex;
 
-    public Friend( String userName, String remark, String signature, int age, String sex) {
+
+    public Friend(String userName, String remark, String signature, int age, String sex) {
         this.userName = userName;
         this.remark = remark;
         this.signature = signature;
@@ -41,32 +42,16 @@ public class Friend {
         return remark;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
     public String getSignature() {
         return signature;
-    }
-
-    public void setSignature(String signature) {
-        this.signature = signature;
     }
 
     public int getAge() {
         return age;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public String getSex() {
         return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
     }
 
     @Override
@@ -77,4 +62,5 @@ public class Friend {
                 ",sex:"+sex+
                 ",age:"+age;
     }
+
 }

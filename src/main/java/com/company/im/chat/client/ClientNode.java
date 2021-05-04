@@ -6,5 +6,4 @@ public interface ClientNode {
 
     void start();
 
-    void reConnect();
 }

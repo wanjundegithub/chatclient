@@ -20,6 +20,18 @@ public class ReqUserRegisterPacket extends AbstractPacket {
 
     private String signature;
 
+    public ReqUserRegisterPacket(User user){
+        this.userName = user.getUserName();
+        this.password = user.getPassword();
+        this.sex = user.getSex();
+        this.age = user.getAge();
+        this.signature = user.getSignature();
+    }
+
+
+    public ReqUserRegisterPacket(){
+
+    }
 
     @Override
     public int getPacketID() {
@@ -40,14 +52,6 @@ public class ReqUserRegisterPacket extends AbstractPacket {
         //empty
     }
 
-
-    public ReqUserRegisterPacket(User user){
-        this.userName = user.getUserName();
-        this.password = user.getPassword();
-        this.sex = user.getSex();
-        this.age = user.getAge();
-        this.signature = user.getSignature();
-    }
 
     public String getUserName() {
         return userName;
