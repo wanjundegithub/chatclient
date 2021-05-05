@@ -33,9 +33,6 @@ public class RegisterViewController implements ControlledStage , Initializable {
     private PasswordField passwordField;
 
     @FXML
-    private ToggleGroup sexGroup;
-
-    @FXML
     private TextField ageTextField;
 
     @FXML
@@ -45,13 +42,16 @@ public class RegisterViewController implements ControlledStage , Initializable {
     private Label errorTipLabel;
 
     @FXML
-    private ImageView minBtn;
+    private Button registerButton;
+
+    @FXML
+    private ToggleGroup sexGroup;
 
     @FXML
     private ImageView closeBtn;
 
     @FXML
-    private Button registerButton;
+    private ImageView minBtn;
 
     @FXML
     public void register(){
@@ -85,10 +85,6 @@ public class RegisterViewController implements ControlledStage , Initializable {
         System.exit(1);
     }
 
-    @FXML
-    public void min(){
-
-    }
 
     @FXML
     private void closeEntered() {
@@ -107,6 +103,11 @@ public class RegisterViewController implements ControlledStage , Initializable {
         clearContent();
         StageController stageController=UiBaseService.INSTANCE.getStageController();
         stageController.switchStage("","");
+    }
+
+    @FXML
+    public void min(){
+
     }
 
     @FXML

@@ -47,12 +47,25 @@ public class MainViewController implements ControlledStage, Initializable{
 
 	private static  final Logger logger= LoggerFactory.getLogger(MainViewController.class);
 
-	private User userModel = SpringContext.getUserService().getUser();
+	private User userModel ;
 
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
+    	if(userModel==null){
+    		userModel=new User();
+		}
 		username.textProperty().bind(userModel.getUserNameProperty());
 		signature.textProperty().bind(userModel.getPasswordProperty());
+	}
+
+	@FXML
+	private void headEx() {
+		shineImage.setVisible(false);
+	}
+
+	@FXML
+	private void headEn() {
+		shineImage.setVisible(true);
 	}
 
 	@FXML
@@ -70,6 +83,11 @@ public class MainViewController implements ControlledStage, Initializable{
 	private void closeExited() {
 		Image image = ImageContainer.getClose();
 		close.setImage(image);
+	}
+
+	@FXML
+	private void min() {
+		getStage().setIconified(true);
 	}
 
 	@FXML
@@ -101,11 +119,6 @@ public class MainViewController implements ControlledStage, Initializable{
 	}
 
 	@FXML
-	private void min() {
-		getStage().setIconified(true);
-	}
-
-	@FXML
 	private void username_entered() {
 		username.setStyle("-fx-background-radius:4;-fx-background-color: #136f9b");
 	}
@@ -125,15 +138,6 @@ public class MainViewController implements ControlledStage, Initializable{
 		signature.setStyle("");
 	}
 
-	@FXML
-	private void headEx() {
-		shineImage.setVisible(false);
-	}
-
-	@FXML
-	private void headEn() {
-		shineImage.setVisible(true);
-	}
 
 	@FXML
 	private void queryEvent() {

@@ -56,7 +56,7 @@ public class LoginViewController implements ControlledStage, Initializable {
 	}
 
 	@FXML
-	private void login() throws IOException {
+	private void login() {
 		String userName = passwordField.getText();
 		String password = passwordField.getText();
 		if (!SessionManager.Instance.isConnectServer()) {
@@ -70,16 +70,18 @@ public class LoginViewController implements ControlledStage, Initializable {
 	}
 
 	@FXML
-	private void close() {
-		System.exit(1);
+	private void login_Entered() {
+		login.setStyle("-fx-background-radius:4;-fx-background-color: #097299");
 	}
 
 	@FXML
-	private void min() {
-		Stage stage = getStage();
-		if (stage != null) {
-			stage.setIconified(true);
-		}
+	private void login_Exited() {
+		login.setStyle("-fx-background-radius:4;-fx-background-color: #09A3DC");
+	}
+
+	@FXML
+	private void close() {
+		System.exit(1);
 	}
 
 	@FXML
@@ -92,6 +94,14 @@ public class LoginViewController implements ControlledStage, Initializable {
 	private void closeExited() {
 		Image image = ImageContainer.getClose();
 		closeBtn.setImage(image);
+	}
+
+	@FXML
+	private void min() {
+		Stage stage = getStage();
+		if (stage != null) {
+			stage.setIconified(true);
+		}
 	}
 
 	@FXML
@@ -113,15 +123,6 @@ public class LoginViewController implements ControlledStage, Initializable {
 		login.setVisible(true);
 	}
 
-	@FXML
-	private void login_en() {
-		login.setStyle("-fx-background-radius:4;-fx-background-color: #097299");
-	}
-
-	@FXML
-	private void login_ex() {
-		login.setStyle("-fx-background-radius:4;-fx-background-color: #09A3DC");
-	}
 
 	@FXML
 	private void gotoRegister() {

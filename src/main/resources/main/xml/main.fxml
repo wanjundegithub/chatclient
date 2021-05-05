@@ -97,17 +97,20 @@
 				</Tab>
 			</tabs>
 		</TabPane>
-		<ImageView fx:id="min" fitHeight="30.0" fitWidth="30.0" layoutX="241.0" layoutY="-1.0" onMouseClicked="#min" onMouseEntered="#minEntered" onMouseExited="#minExited" pickOnBounds="true" preserveRatio="true">
+		<ImageView fx:id="min" fitHeight="30.0" fitWidth="30.0" layoutX="241.0" layoutY="-1.0"
+				   onMouseClicked="#min" onMouseEntered="#minEntered" onMouseExited="#minExited" pickOnBounds="true" preserveRatio="true">
 			<image>
 				<Image url="@../../login/img/min.png" />
 			</image>
 		</ImageView>
-		<ImageView fx:id="close" fitHeight="30.0" fitWidth="30.0" layoutX="271.0" layoutY="-1.0" onMouseClicked="#close" onMouseEntered="#closeEntered" onMouseExited="#closeExited" pickOnBounds="true" preserveRatio="true">
+		<ImageView fx:id="close" fitHeight="30.0" fitWidth="30.0" layoutX="271.0" layoutY="-1.0"
+				   onMouseClicked="#close" onMouseEntered="#closeEntered" onMouseExited="#closeExited" pickOnBounds="true" preserveRatio="true">
 			<image>
 				<Image url="@../../login/img/close.png" />
 			</image>
 		</ImageView>
-		<Label fx:id="username" contentDisplay="CENTER" layoutX="95.0" layoutY="39.0" onMouseEntered="#username_entered" onMouseExited="#username_exited" text="username" textFill="WHITE">
+		<Label fx:id="username" contentDisplay="CENTER" layoutX="95.0" layoutY="39.0"
+			   onMouseEntered="#username_entered" onMouseExited="#username_exited" text="username" textFill="WHITE">
 			<font>
 				<Font size="20.0" />
 			</font>
@@ -115,7 +118,8 @@
 				<Insets bottom="-1.0" left="5.0" right="5.0" top="-1.0" />
 			</padding>
 		</Label>
-		<Label fx:id="signature" layoutX="95.0" layoutY="66.0" onMouseEntered="#autograph_entered" onMouseExited="#autograph_exited" prefHeight="18.0" prefWidth="193.0" text="" textFill="WHITE">
+		<Label fx:id="signature" layoutX="95.0" layoutY="66.0"
+			   onMouseEntered="#autograph_entered" onMouseExited="#autograph_exited" prefHeight="18.0" prefWidth="193.0" text="" textFill="WHITE">
 			<font>
 				<Font size="17.0" />
 			</font>
