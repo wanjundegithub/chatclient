@@ -3,23 +3,28 @@ package com.company.im.chat.model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * User Info
+ */
 public class User {
-    private StringProperty userNameProperty;
 
-    private StringProperty passwordProperty;
+    //必须赋初始值
+    private StringProperty userNameProperty=new SimpleStringProperty("");
+
+    private StringProperty passwordProperty=new SimpleStringProperty("");
 
     private String sex;
 
     private int age;
 
-    private String signature;
+    private StringProperty signatureProperty=new SimpleStringProperty("");
 
     public User(String userName, String password, String sex, int age, String signature) {
         this.userNameProperty = new SimpleStringProperty(userName);
         this.passwordProperty = new SimpleStringProperty(password);
         this.sex = sex;
         this.age = age;
-        this.signature = signature;
+        this.signatureProperty=new SimpleStringProperty(signature);
     }
 
     public User(){
@@ -66,12 +71,8 @@ public class User {
         this.age = age;
     }
 
-    public String getSignature() {
-        return signature;
-    }
-
-    public void setSignature(String signature) {
-        this.signature = signature;
+    public String getSignature(){
+        return this.signatureProperty.get();
     }
 
     @Override
@@ -80,6 +81,6 @@ public class User {
                 ",password:"+passwordProperty.get()+
                 ",sex:"+sex+
                 ",age:"+age+
-                ",signature:"+signature;
+                ",signature:"+signatureProperty.get();
     }
 }

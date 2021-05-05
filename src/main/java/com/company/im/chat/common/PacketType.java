@@ -68,20 +68,10 @@ public  class PacketType {
     /*
      **请求-好友登录
      */
-    public static int ReqFriendLogin=7_000;
+    public static int ResFriendLogin=7_000;
 
     /*
      **回应-好友登录
-     */
-    public static int ResFriendLogin=7_001;
-
-    /*
-     **请求-好友登出
-     */
-    public static int ReqFriendLogout=7_000;
-
-    /*
-     **回应-好友登出
      */
     public static int ResFriendLogout=7_001;
 
@@ -99,5 +89,10 @@ public  class PacketType {
     **回应-好友
      */
     public static int ResFriendsInfo=9_001;
+
+    /*
+    **回应-好友列表
+     */
+    public static int ResFriendList=9_002;
 
 }

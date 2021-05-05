@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /*
 **Chat客户端
  */
-public class ChatClient {
+public class ChatClient implements ClientNode {
 
     private static  final Logger logger= LoggerFactory.getLogger(ChatClient.class);
 
@@ -32,12 +32,26 @@ public class ChatClient {
 
     private AtomicInteger reconnectTimes=new AtomicInteger(0);
 
+    private int maxReconnectTimes;
+
+    private EventLoopGroup workerGroup=new NioEventLoopGroup(1);
+
+    @Override
+    public void init() {
+        var config=SpringContext.getClientConfig();
+        if(config==null){
+            logger.info("Spring Context Load Failure");
+        }
+        host=config.getServerIP();
+        port=config.getServerPort();
+        maxReconnectTimes=config.getMaxReConnectTimes();
+    }
+
     public void start() {
-        EventLoopGroup group = new NioEventLoopGroup(1);
         logger.info("ready to start client");
         try{
             Bootstrap b  = new Bootstrap();
-            b.group(group).channel(NioSocketChannel.class)
+            b.group(workerGroup).channel(NioSocketChannel.class)
                     .handler(new ChannelInitializer<SocketChannel>(){
                         @Override
                         protected void initChannel(SocketChannel arg0)
@@ -50,20 +64,18 @@ public class ChatClient {
                         }
 
                     });
-            host="127.00.1";
-            port=9090;
             ChannelFuture f = b.connect(new InetSocketAddress(host, port))
                     .sync();
             f.channel().closeFuture().sync();
-            logger.info("client start success");
+            logger.info("client connect success");
         }catch(Exception e){
            logger.info(e.getMessage());
-        }finally{
-            //          group.shutdownGracefully();  //这里不再是优雅关闭了
             //设置最大重连次数，防止服务端正常关闭导致的空循环
             if (reconnectTimes.get() < 10) {
                 reConnectServer();
             }
+        }finally{
+            shutDown();
         }
 
     }
@@ -79,6 +91,14 @@ public class ChatClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void shutDown() {
+        if(workerGroup==null){
+            return;
+        }
+        workerGroup.shutdownGracefully();
     }
 
 

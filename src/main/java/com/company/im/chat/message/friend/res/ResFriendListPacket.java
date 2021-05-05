@@ -1,5 +1,6 @@
 package com.company.im.chat.message.friend.res;
 
+import com.company.im.chat.common.PacketType;
 import com.company.im.chat.message.AbstractPacket;
 import com.company.im.chat.message.friend.FriendItemBean;
 import io.netty.buffer.ByteBuf;
@@ -13,7 +14,7 @@ public class ResFriendListPacket extends AbstractPacket {
 
 	@Override
 	public int getPacketID() {
-		return 0;
+		return PacketType.ResFriendList;
 	}
 
 

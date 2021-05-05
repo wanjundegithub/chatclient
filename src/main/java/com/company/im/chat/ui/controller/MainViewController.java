@@ -47,12 +47,13 @@ public class MainViewController implements ControlledStage, Initializable{
 
 	private static  final Logger logger= LoggerFactory.getLogger(MainViewController.class);
 
-	private User userModel ;
+	private User userModel=SpringContext.getUserService().getUser();
 
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
     	if(userModel==null){
-    		userModel=new User();
+    		logger.info(" initial user failure");
+    		return;
 		}
 		username.textProperty().bind(userModel.getUserNameProperty());
 		signature.textProperty().bind(userModel.getPasswordProperty());
@@ -102,21 +103,21 @@ public class MainViewController implements ControlledStage, Initializable{
 		min.setImage(image);
 	}
 
-	@FXML
-	private void bind() {
-		friendSp.setFitToWidth(false);
-		friends.expandedPaneProperty().addListener(new ChangeListener<TitledPane>() {
-			@Override
-			public void changed(ObservableValue<? extends TitledPane> arg0, TitledPane arg1, TitledPane arg2) {
-				if (arg2 != null) {
-					logger.info("-------11111111--------");
-				}
-				if (arg1 != null) {
-					logger.info("-------2222222222---------");
-				}
-			}
-		});
-	}
+//	@FXML
+//	private void bind() {
+//		friendSp.setFitToWidth(false);
+//		friends.expandedPaneProperty().addListener(new ChangeListener<TitledPane>() {
+//			@Override
+//			public void changed(ObservableValue<? extends TitledPane> arg0, TitledPane arg1, TitledPane arg2) {
+//				if (arg2 != null) {
+//					logger.info("-------11111111--------");
+//				}
+//				if (arg1 != null) {
+//					logger.info("-------2222222222---------");
+//				}
+//			}
+//		});
+//	}
 
 	@FXML
 	private void username_entered() {

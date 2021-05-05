@@ -41,18 +41,6 @@ public class SpringContext implements ApplicationContextAware {
     @PostConstruct
     public void Init(){
         self=this;
-        Arrays.stream(self.getClass().getDeclaredFields()).forEach(
-                f -> {
-                    try {
-                        Object obj = f.get(null);
-                        if (InitService.class.isAssignableFrom(f.getType())) {
-                            ((InitService) obj).init();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
     }
 
     public static ClientConfig getClientConfig() {

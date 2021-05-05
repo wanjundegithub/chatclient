@@ -1,5 +1,6 @@
 package com.company.im.chat.message.friend.res;
 
+import com.company.im.chat.common.PacketType;
 import com.company.im.chat.message.AbstractPacket;
 import io.netty.buffer.ByteBuf;
 
@@ -19,7 +20,7 @@ public class ResFriendLogoutPacket extends AbstractPacket {
 
     @Override
     public int getPacketID() {
-        return 0;
+        return PacketType.ResFriendLogout;
     }
 
     @Override

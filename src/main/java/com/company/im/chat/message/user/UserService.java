@@ -130,8 +130,10 @@ public class UserService implements InitService {
             logger.error("login user info from server is null");
             return;
         }
-        ResUserInfoPacket resUserInfoPacket=(ResUserInfoPacket) packet;
-        this.user=resUserInfoPacket.createUser();
+        UiBaseService.INSTANCE.runTaskInFxThread(()-> {
+            ResUserInfoPacket resUserInfoPacket=(ResUserInfoPacket) packet;
+            this.user=resUserInfoPacket.createUser();
+        });
     }
 
     /*

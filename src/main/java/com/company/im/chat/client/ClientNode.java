@@ -6,4 +6,6 @@ public interface ClientNode {
 
     void start();
 
+    void shutDown();
+
 }
