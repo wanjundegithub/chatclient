@@ -30,7 +30,7 @@ public class ChatClient {
 
     private int port;
 
-    private AtomicInteger reconnectTimes;
+    private AtomicInteger reconnectTimes=new AtomicInteger(0);
 
     public void start() {
         EventLoopGroup group = new NioEventLoopGroup(1);
@@ -74,7 +74,6 @@ public class ChatClient {
     private void reConnectServer(){
         try {
             Thread.sleep(5000);
-            //logger.error("Client try to reconnect");
             start();
             reconnectTimes.incrementAndGet();
         } catch (Exception e) {
