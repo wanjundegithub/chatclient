@@ -57,7 +57,7 @@ public class LoginViewController implements ControlledStage, Initializable {
 
 	@FXML
 	private void login() {
-		String userName = passwordField.getText();
+		String userName = userNameTextField.getText();
 		String password = passwordField.getText();
 		if (!SessionManager.Instance.isConnectServer()) {
 			errorPane.setVisible(true);

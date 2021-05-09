@@ -39,9 +39,9 @@ public class FriendService implements InitService {
 
     @PostConstruct
     public void init(){
-//        MessageRouter.Instance.registerHandle(PacketType.ResFriendLogin,this::RespondFriendLogin);
-//        MessageRouter.Instance.registerHandle(PacketType.ReqFriendLogout,this::RespondFriendLogout);
-        MessageRouter.Instance.registerHandle(PacketType.ResFriendsInfo,this::receiveFriendsList);
+        MessageRouter.Instance.registerHandle(PacketType.ResFriendLogin,this::RespondFriendLogin);
+        MessageRouter.Instance.registerHandle(PacketType.ResFriendLogout,this::RespondFriendLogout);
+        MessageRouter.Instance.registerHandle(PacketType.ResFriendList,this::receiveFriendsList);
     }
 
     /*
