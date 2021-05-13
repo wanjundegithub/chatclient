@@ -7,6 +7,7 @@ import com.company.im.chat.ui.StageController;
 import com.company.im.chat.ui.UiBaseService;
 import com.company.im.chat.ui.View;
 import com.company.im.chat.ui.container.ImageContainer;
+import com.company.im.chat.util.LoggerUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -28,7 +29,7 @@ import java.util.ResourceBundle;
 /*
 **主界面
  */
-public class MainViewController implements ControlledStage, Initializable{
+public class MainViewController implements ControlledStage{
 
 	@FXML
 	private ImageView close;
@@ -41,23 +42,25 @@ public class MainViewController implements ControlledStage, Initializable{
 	@FXML
 	private ScrollPane friendSp;
 	@FXML
-	private Label username;
+	private Label usernameLabel;
 	@FXML
-	private Label signature;
+	private Label signatureLabel;
 
 	private static  final Logger logger= LoggerFactory.getLogger(MainViewController.class);
 
-	private User userModel=SpringContext.getUserService().getUser();
+//	private User userModel=SpringContext.getUserService().getUser();
 
-    @Override
-	public void initialize(URL location, ResourceBundle resources) {
-    	if(userModel==null){
-    		logger.info(" initial user failure");
-    		return;
-		}
-		username.textProperty().bind(userModel.getUserNameProperty());
-		signature.textProperty().bind(userModel.getPasswordProperty());
-	}
+//    @Override
+//	public void initialize(URL location, ResourceBundle resources) {
+//    	if(userModel==null){
+//    		logger.info(" initial user failure");
+//    		return;
+//		}
+//		LoggerUtil.info("用户名:"+userModel.getUserName()+"用户签名:"+userModel.getSignature()
+//				,MainViewController.class);
+//		username.textProperty().bind(userModel.getUserNameProperty());
+//		signature.textProperty().bind(userModel.getPasswordProperty());
+//	}
 
 	@FXML
 	private void headEx() {
@@ -121,22 +124,22 @@ public class MainViewController implements ControlledStage, Initializable{
 
 	@FXML
 	private void username_entered() {
-		username.setStyle("-fx-background-radius:4;-fx-background-color: #136f9b");
+		usernameLabel.setStyle("-fx-background-radius:4;-fx-background-color: #136f9b");
 	}
 
 	@FXML
 	private void username_exited() {
-		username.setStyle("");
+		usernameLabel.setStyle("");
 	}
 
 	@FXML
 	private void autograph_entered() {
-		signature.setStyle("-fx-background-radius:4;-fx-background-color: #136f9b");
+		signatureLabel.setStyle("-fx-background-radius:4;-fx-background-color: #136f9b");
 	}
 
 	@FXML
 	private void autograph_exited() {
-		signature.setStyle("");
+		signatureLabel.setStyle("");
 	}
 
 

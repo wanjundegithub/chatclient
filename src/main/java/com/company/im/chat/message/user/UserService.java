@@ -148,6 +148,12 @@ public class UserService  {
      */
     private void redirectToMainPanel() {
         StageController stageController = UiBaseService.INSTANCE.getStageController();
+        Stage stage = stageController.getStageBy(View.id.MainView);
+        Label userNameLabel=(Label) stage.getScene().getRoot().lookup("usernameLabel");
+        Label signatureLabel=(Label) stage.getScene().getRoot().lookup("signatureLabel");
+        userNameLabel.setText(user.getUserName());
+        signatureLabel.setText(user.getSignature());
         stageController.switchStage(View.id.MainView, View.id.LoginView);
+
     }
 }

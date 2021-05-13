@@ -64,7 +64,6 @@ public class RegisterViewController implements ControlledStage , Initializable {
         String userName=userNameTextField.getText();
         String password=passwordField.getText();
         String sexItem=sexGroup.getSelectedToggle().getUserData().toString();
-        LoggerUtil.info("性别值为:"+sexItem);
         String sex=sexItem.equals("0")?StateHelper.Male:StateHelper.Female;
         int age=Integer.parseInt(ageTextField.getText());
         String signature=signatureTextField.getText();

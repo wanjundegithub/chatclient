@@ -48,6 +48,7 @@ public class FriendService {
         var resFriendLoginPacket=(ResFriendLoginPacket) packet;
         String friendName=resFriendLoginPacket.getFriendName();
         //界面处理
+        onFriendLogin(friendName);
     }
 
     /*
@@ -61,6 +62,7 @@ public class FriendService {
         var resFriendLogoutPacket=(ResFriendLogoutPacket)packet;
         String friendName= resFriendLogoutPacket.getFriendName();
         //界面处理
+        onFriendLogout(friendName);
     }
 
     /**
@@ -73,7 +75,7 @@ public class FriendService {
         if (friend != null) {
             friend.setIsOnline(StateHelper.OnLine);
             List<FriendItemBean> friendItems = new ArrayList<>(friends.values());
-            receiveFriendsList(friendItems);
+            refreshFriendsList(friendItems);
         }
     }
 
@@ -87,7 +89,7 @@ public class FriendService {
         if (friend != null) {
             friend.setIsOnline(StateHelper.OffLine);
             List<FriendItemBean> friendItems = new ArrayList<>(friends.values());
-            receiveFriendsList(friendItems);
+            refreshFriendsList(friendItems);
         }
     }
 
@@ -95,17 +97,14 @@ public class FriendService {
      * 从接收的消息中解析出好友列表信息
      * @param packet
      */
-    public void receiveFriendsList(AbstractPacket packet) {
+    public void refreshFriendsList(AbstractPacket packet) {
         if(packet==null){
             logger.error("friends message is null");
             return;
         }
         ResFriendListPacket resFriends = (ResFriendListPacket) packet;
-//        for(var item :resFriends.getFriends()){
-//            logger.info(item.toString());
-//        }
         UiBaseService.INSTANCE.runTaskInFxThread(() -> {
-            receiveFriendsList(resFriends.getFriends());
+            refreshFriendsList(resFriends.getFriends());
         });
     }
 
@@ -113,7 +112,7 @@ public class FriendService {
      * 获取好友列表
      * @param friendItems
      */
-    private void receiveFriendsList(List<FriendItemBean> friendItems) {
+    private void refreshFriendsList(List<FriendItemBean> friendItems) {
         friends.clear();
         for (FriendItemBean item : friendItems) {
             friends.put(item.getFriend().getUserName(), item);

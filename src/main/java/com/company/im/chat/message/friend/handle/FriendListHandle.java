@@ -11,6 +11,6 @@ public class FriendListHandle extends MessageHandle<ResFriendListPacket> {
 
     @Override
     public void action(ResFriendListPacket packet) {
-        SpringContext.getFriendService().receiveFriendsList(packet);
+        SpringContext.getFriendService().refreshFriendsList(packet);
     }
 }
