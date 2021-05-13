@@ -2,7 +2,6 @@ package com.company.im.chat.context;
 
 
 import com.company.im.chat.config.ClientConfig;
-import com.company.im.chat.message.InitService;
 import com.company.im.chat.message.chat.ChatService;
 import com.company.im.chat.message.friend.FriendService;
 import com.company.im.chat.message.user.UserService;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.Arrays;
 
 /*
 **Spring容器配置
@@ -32,6 +30,7 @@ public class SpringContext implements ApplicationContextAware {
     private static FriendService friendService;
 
     private static ChatService chatService;
+
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -78,4 +77,5 @@ public class SpringContext implements ApplicationContextAware {
     public void setChatService(ChatService chatService) {
         SpringContext.chatService = chatService;
     }
+
 }

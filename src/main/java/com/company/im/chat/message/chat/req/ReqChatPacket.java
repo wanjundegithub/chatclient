@@ -33,7 +33,8 @@ public class ReqChatPacket extends AbstractPacket {
 
     @Override
     public void readBody(ByteBuf byteBuf) {
-        //empty
+        toUserName=readByteToString(byteBuf);
+        content=readByteToString(byteBuf);
     }
 
     public String getToUserName() {

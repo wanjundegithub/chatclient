@@ -3,7 +3,6 @@ package com.company.im.chat.message.user;
 import com.company.im.chat.common.PacketType;
 import com.company.im.chat.common.StateHelper;
 import com.company.im.chat.message.AbstractPacket;
-import com.company.im.chat.message.InitService;
 import com.company.im.chat.message.MessageRouter;
 import com.company.im.chat.message.user.req.ReqUserLoginPacket;
 import com.company.im.chat.message.user.req.ReqUserRegisterPacket;
@@ -27,18 +26,12 @@ import javax.annotation.PostConstruct;
 
 
 @Service
-public class UserService implements InitService {
+public class UserService  {
 
     private static  final Logger logger= LoggerFactory.getLogger(UserService.class);
 
     private User user=new User();
 
-    @PostConstruct
-    public void init(){
-        MessageRouter.Instance.registerHandle(PacketType.ResUserRegister,this::respondRegister);
-        MessageRouter.Instance.registerHandle(PacketType.ResUserLogin,this::respondLogin);
-        MessageRouter.Instance.registerHandle(PacketType.ResUserInfo,this::respondUserInfo);
-    }
 
     public User getUser() {
         return user;
@@ -105,6 +98,7 @@ public class UserService implements InitService {
         var resUserLoginPacket=(ResUserLoginPacket)packet;
         byte result=resUserLoginPacket.getResult();
         String message=resUserLoginPacket.getMessage();
+        logger.info("login result is:"+result+" login message is "+message);
         //处理
         if (result==StateHelper.Action_Success) {
             UiBaseService.INSTANCE.runTaskInFxThread(() -> {
@@ -130,6 +124,8 @@ public class UserService implements InitService {
             logger.error("login user info from server is null");
             return;
         }
+        ResUserInfoPacket testPacket=(ResUserInfoPacket) packet;
+        logger.info("响应的用户名为:"+testPacket.getUserName()+"签名为:"+testPacket.getSignature());
         UiBaseService.INSTANCE.runTaskInFxThread(()-> {
             ResUserInfoPacket resUserInfoPacket=(ResUserInfoPacket) packet;
             this.user=resUserInfoPacket.createUser();

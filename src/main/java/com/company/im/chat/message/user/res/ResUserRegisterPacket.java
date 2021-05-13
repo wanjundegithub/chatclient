@@ -28,7 +28,8 @@ public class ResUserRegisterPacket extends AbstractPacket {
 
     @Override
     public void writeBody(ByteBuf byteBuf) {
-        //empty
+        writeStringToByte(byteBuf,userName);
+        byteBuf.writeByte(result);
     }
 
     @Override

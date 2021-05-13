@@ -14,5 +14,5 @@ public class StateHelper {
 
     public static final String Male="Male";
 
-    public static final String GroupName="Friend";
+    public static final String GroupName="好友";
 }

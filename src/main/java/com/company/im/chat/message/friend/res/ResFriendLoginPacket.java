@@ -25,7 +25,7 @@ public class ResFriendLoginPacket extends AbstractPacket {
 
     @Override
     public void writeBody(ByteBuf byteBuf) {
-        //empty
+        writeStringToByte(byteBuf,friendName);
     }
 
     @Override

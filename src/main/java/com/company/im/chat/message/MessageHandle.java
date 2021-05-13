@@ -3,8 +3,7 @@ package com.company.im.chat.message;
 /*
 **消息处理
  */
-@FunctionalInterface
-public interface MessageHandle<T extends AbstractPacket> {
+public abstract class MessageHandle<T extends AbstractPacket> {
 
-    void action(T packet);
+    public abstract void action(T packet);
 }

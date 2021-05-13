@@ -29,7 +29,8 @@ public class ResChatPacket extends AbstractPacket {
 
     @Override
     public void writeBody(ByteBuf byteBuf) {
-        //empty
+        writeStringToByte(byteBuf,fromUserName);
+        writeStringToByte(byteBuf,content);
     }
 
     @Override

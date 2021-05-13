@@ -49,7 +49,7 @@
 								<Font size="25.0" />
 							</font>
 						</Hyperlink>
-						<Label fx:id="friendNameLabel" layoutX="282.0" layoutY="22.0" text="friendName"
+						<Label fx:id="friendNameLabel" layoutX="282.0" layoutY="22.0"
 							visible="false">
 							<font>
 								<Font size="20.0" />

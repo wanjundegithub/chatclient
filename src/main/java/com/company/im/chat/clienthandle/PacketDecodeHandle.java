@@ -1,6 +1,5 @@
-package com.company.im.chat.handle;
+package com.company.im.chat.clienthandle;
 
-import com.company.im.chat.message.AbstractPacket;
 import com.company.im.chat.message.MessageRouter;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -30,7 +29,11 @@ public class PacketDecodeHandle extends LengthFieldBasedFrameDecoder {
             return null;
         }
         int packetType=frame.readInt();
+        logger.info("解码消息类型："+packetType);
         var packet= MessageRouter.Instance.createPacket(packetType);
+        //读取bytebuffer来实例化packet
+        packet.readBody(frame);
+        logger.info(packet.toString());
         return packet;
     }
 }

@@ -27,7 +27,11 @@ public class ResUserInfoPacket extends AbstractPacket {
 
     @Override
     public void writeBody(ByteBuf byteBuf) {
-       //empty
+       writeStringToByte(byteBuf,userName);
+       writeStringToByte(byteBuf,password);
+       writeStringToByte(byteBuf,sex);
+       byteBuf.writeInt(age);
+       writeStringToByte(byteBuf,signature);
     }
 
     @Override
@@ -45,5 +49,21 @@ public class ResUserInfoPacket extends AbstractPacket {
 
     public String getUserName() {
         return userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getSignature() {
+        return signature;
     }
 }

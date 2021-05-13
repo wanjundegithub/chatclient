@@ -1,9 +1,9 @@
 package com.company.im.chat.client;
 
 import com.company.im.chat.context.SpringContext;
-import com.company.im.chat.handle.IOHandle;
-import com.company.im.chat.handle.PacketDecodeHandle;
-import com.company.im.chat.handle.PacketEncodeHandle;
+import com.company.im.chat.clienthandle.IOHandle;
+import com.company.im.chat.clienthandle.PacketDecodeHandle;
+import com.company.im.chat.clienthandle.PacketEncodeHandle;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;

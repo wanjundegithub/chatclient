@@ -1,4 +1,4 @@
-package com.company.im.chat.handle;
+package com.company.im.chat.clienthandle;
 
 import com.company.im.chat.message.AbstractPacket;
 import com.company.im.chat.message.MessageRouter;
@@ -25,7 +25,7 @@ public class IOHandle extends ChannelInboundHandlerAdapter {
     }
 
     /*
-    **channel读写
+    **channel读
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -34,6 +34,8 @@ public class IOHandle extends ChannelInboundHandlerAdapter {
             logger.error("message is null");
             return;
         }
+        logger.info("message type is "+ packet.getPacketID()
+                +" message class is "+packet.getClass().getName());
         //处理消息
         MessageRouter.Instance.execPacket(packet);
     }

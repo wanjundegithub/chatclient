@@ -1,4 +1,4 @@
-package com.company.im.chat.handle;
+package com.company.im.chat.clienthandle;
 
 import com.company.im.chat.message.AbstractPacket;
 import io.netty.buffer.ByteBuf;
@@ -18,7 +18,8 @@ public class PacketEncodeHandle extends MessageToByteEncoder<AbstractPacket> {
     **将消息AbstractPacket编码为bytebuf
      */
     @Override
-    protected void encode(ChannelHandlerContext channelHandlerContext, AbstractPacket packet, ByteBuf byteBuf) throws Exception {
+    protected void encode(ChannelHandlerContext channelHandlerContext, AbstractPacket packet,
+                          ByteBuf byteBuf) throws Exception {
         int packetType=packet.getPacketID();
         try {
             byteBuf.writeInt(packetType);

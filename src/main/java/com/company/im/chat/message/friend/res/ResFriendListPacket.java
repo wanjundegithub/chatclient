@@ -8,9 +8,19 @@ import io.netty.buffer.ByteBuf;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 好友列表信息-服务器应答
+ */
 public class ResFriendListPacket extends AbstractPacket {
 
-	private List<FriendItemBean> friends;
+	private List<FriendItemBean> friends=new ArrayList<>();
+
+	public ResFriendListPacket(List<FriendItemBean> friends) {
+		this.friends = friends;
+	}
+
+	public ResFriendListPacket() {
+	}
 
 	@Override
 	public int getPacketID() {
@@ -20,7 +30,11 @@ public class ResFriendListPacket extends AbstractPacket {
 
 	@Override
 	public void writeBody(ByteBuf byteBuf) {
-		//empty
+		int size=friends.size();
+		byteBuf.writeInt(size);
+		for(var item:friends){
+			item.writeBody(byteBuf);
+		}
 	}
 
 	@Override

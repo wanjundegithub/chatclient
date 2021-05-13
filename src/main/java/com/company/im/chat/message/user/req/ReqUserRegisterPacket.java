@@ -49,7 +49,11 @@ public class ReqUserRegisterPacket extends AbstractPacket {
 
     @Override
     public void readBody(ByteBuf byteBuf) {
-        //empty
+        userName=readByteToString(byteBuf);
+        password=readByteToString(byteBuf);
+        sex=readByteToString(byteBuf);
+        age=byteBuf.readInt();
+        signature=readByteToString(byteBuf);
     }
 
 

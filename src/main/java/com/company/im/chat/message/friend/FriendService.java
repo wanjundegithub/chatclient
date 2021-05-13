@@ -1,12 +1,9 @@
 package com.company.im.chat.message.friend;
 
-import com.company.im.chat.common.PacketType;
 import com.company.im.chat.common.StateHelper;
 import com.company.im.chat.context.SpringContext;
 import com.company.im.chat.event.DoubleClickEvent;
 import com.company.im.chat.message.AbstractPacket;
-import com.company.im.chat.message.InitService;
-import com.company.im.chat.message.MessageRouter;
 import com.company.im.chat.message.friend.res.ResFriendListPacket;
 import com.company.im.chat.message.friend.res.ResFriendLoginPacket;
 import com.company.im.chat.message.friend.res.ResFriendLogoutPacket;
@@ -24,25 +21,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /*
 **
  */
 @Service
-public class FriendService implements InitService {
+public class FriendService {
 
     private static final Logger logger= LoggerFactory.getLogger(FriendService.class);
 
     private Map<String, FriendItemBean> friends = new HashMap<>();
 
-    @PostConstruct
-    public void init(){
-        MessageRouter.Instance.registerHandle(PacketType.ResFriendLogin,this::RespondFriendLogin);
-        MessageRouter.Instance.registerHandle(PacketType.ResFriendLogout,this::RespondFriendLogout);
-        MessageRouter.Instance.registerHandle(PacketType.ResFriendList,this::receiveFriendsList);
-    }
 
     /*
     **好友登录应答（来自服务器端）
@@ -108,6 +101,9 @@ public class FriendService implements InitService {
             return;
         }
         ResFriendListPacket resFriends = (ResFriendListPacket) packet;
+//        for(var item :resFriends.getFriends()){
+//            logger.info(item.toString());
+//        }
         UiBaseService.INSTANCE.runTaskInFxThread(() -> {
             receiveFriendsList(resFriends.getFriends());
         });
@@ -122,7 +118,6 @@ public class FriendService implements InitService {
         for (FriendItemBean item : friendItems) {
             friends.put(item.getFriend().getUserName(), item);
         }
-
         UiBaseService.INSTANCE.runTaskInFxThread(() -> {
             refreshFriendsView(friendItems);
         });
@@ -158,7 +153,8 @@ public class FriendService implements InitService {
      * @param groupName
      * @param friendItems
      */
-    private void decorateFriendGroup(Accordion container, String groupName, List<FriendItemBean> friendItems) {
+    private void decorateFriendGroup(Accordion container, String groupName,
+                                     List<FriendItemBean> friendItems) {
         ListView<Node> listView = new ListView<Node>();
         int onlineCount = 0;
         StageController stageController = UiBaseService.INSTANCE.getStageController();
@@ -189,8 +185,8 @@ public class FriendService implements InitService {
         usernameUi.setText(friendItemBean.getFriendFullName());
 
         //隐藏域，聊天界面用
-        Label userIdUi = (Label) itemUi.lookup("#userName");
-        userIdUi.setText(String.valueOf(friendItemBean.getFriend().getUserName()));
+        Label friendNameUi = (Label) itemUi.lookup("#friendName");
+        friendNameUi.setText(String.valueOf(friendItemBean.getFriend().getUserName()));
 
         ImageView headImage = (ImageView) itemUi.lookup("#headIcon");
 
@@ -214,7 +210,7 @@ public class FriendService implements InitService {
                     if (selectedItem == null)
                         return;
                     Pane pane = (Pane) selectedItem;
-                    Label userNameUi = (Label) pane.lookup("#userName");
+                    Label userNameUi = (Label) pane.lookup("#friendName");
 
                     String friendName = userNameUi.getText();
                     FriendItemBean targetFriend = friends.get(friendName);
@@ -240,10 +236,10 @@ public class FriendService implements InitService {
         Stage chatStage = stageController.setStage(View.id.ChatToFriend);
         Hyperlink userNameUi = (Hyperlink) chatStage.getScene().getRoot().lookup("#userName");
         Label signatureUi = (Label) chatStage.getScene().getRoot().lookup("#signature");
-        userNameUi.setText(targetFriend.getFriendFullName());
-        signatureUi.setText(targetFriend.getFriendFullName());
+        Label friendLabel=(Label)chatStage.getScene().getRoot().lookup("#friendNameLabel");
+        userNameUi.setText(targetFriend.getFriend().getUserName());
+        signatureUi.setText(targetFriend.getFriend().getSignature());
+        friendLabel.setText(targetFriend.getFriend().getUserName());
     }
-
-
 
 }

@@ -34,7 +34,8 @@ public class ReqUserLogoutPacket extends AbstractPacket {
 
     @Override
     public void readBody(ByteBuf byteBuf) {
-        //empty
+        userName=readByteToString(byteBuf);
+        message=readByteToString(byteBuf);
     }
 
     public String getUserName() {

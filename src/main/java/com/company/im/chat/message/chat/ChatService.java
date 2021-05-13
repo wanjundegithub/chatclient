@@ -1,10 +1,7 @@
 package com.company.im.chat.message.chat;
 
-import com.company.im.chat.common.PacketType;
 import com.company.im.chat.context.SpringContext;
 import com.company.im.chat.message.AbstractPacket;
-import com.company.im.chat.message.InitService;
-import com.company.im.chat.message.MessageRouter;
 import com.company.im.chat.message.chat.req.ReqChatPacket;
 import com.company.im.chat.message.chat.res.ResChatPacket;
 import com.company.im.chat.session.SessionManager;
@@ -25,13 +22,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
-public class ChatService implements InitService {
+public class ChatService  {
 
     private static final Logger logger= LoggerFactory.getLogger(ChatService.class);
 
     @PostConstruct
     public void init(){
-        MessageRouter.Instance.registerHandle(PacketType.ResUserChat,this::respondChatMessage);
+
     }
 
     /*

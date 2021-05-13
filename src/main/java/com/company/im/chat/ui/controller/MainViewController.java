@@ -103,21 +103,21 @@ public class MainViewController implements ControlledStage, Initializable{
 		min.setImage(image);
 	}
 
-//	@FXML
-//	private void bind() {
-//		friendSp.setFitToWidth(false);
-//		friends.expandedPaneProperty().addListener(new ChangeListener<TitledPane>() {
-//			@Override
-//			public void changed(ObservableValue<? extends TitledPane> arg0, TitledPane arg1, TitledPane arg2) {
-//				if (arg2 != null) {
-//					logger.info("-------11111111--------");
-//				}
-//				if (arg1 != null) {
-//					logger.info("-------2222222222---------");
-//				}
-//			}
-//		});
-//	}
+	@FXML
+	private void bind() {
+		friendSp.setFitToWidth(false);
+		friends.expandedPaneProperty().addListener(new ChangeListener<TitledPane>() {
+			@Override
+			public void changed(ObservableValue<? extends TitledPane> arg0, TitledPane arg1, TitledPane arg2) {
+				if (arg2 != null) {
+					logger.info("-------11111111--------");
+				}
+				if (arg1 != null) {
+					logger.info("-------2222222222---------");
+				}
+			}
+		});
+	}
 
 	@FXML
 	private void username_entered() {

@@ -9,6 +9,7 @@ import com.company.im.chat.ui.StageController;
 import com.company.im.chat.ui.UiBaseService;
 import com.company.im.chat.ui.View;
 import com.company.im.chat.ui.container.ImageContainer;
+import com.company.im.chat.util.LoggerUtil;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -62,8 +63,10 @@ public class RegisterViewController implements ControlledStage , Initializable {
         }
         String userName=userNameTextField.getText();
         String password=passwordField.getText();
-        String sex=sexGroup.getSelectedToggle().getUserData().toString();
-        int age=Integer.getInteger(ageTextField.getText());
+        String sexItem=sexGroup.getSelectedToggle().getUserData().toString();
+        LoggerUtil.info("性别值为:"+sexItem);
+        String sex=sexItem.equals("0")?StateHelper.Male:StateHelper.Female;
+        int age=Integer.parseInt(ageTextField.getText());
         String signature=signatureTextField.getText();
         User user=User.createUser(userName,password,sex,age,signature);
         SpringContext.getUserService().requestRegister(user);
@@ -102,7 +105,7 @@ public class RegisterViewController implements ControlledStage , Initializable {
     public void goToLogin(){
         clearContent();
         StageController stageController=UiBaseService.INSTANCE.getStageController();
-        stageController.switchStage("","");
+        stageController.switchStage(View.id.LoginView, View.id.RegisterView);
     }
 
     @FXML
@@ -131,14 +134,14 @@ public class RegisterViewController implements ControlledStage , Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //初始化性别可选
-        Toggle female_toggle=new ToggleButton(StateHelper.Female);
-        Toggle male_toggle=new ToggleButton(StateHelper.Male);
-        sexGroup.getToggles().add(female_toggle);
-        sexGroup.getToggles().add(male_toggle);
+        for (int i=0;i<this.sexGroup.getToggles().size();i++) {
+            Toggle sexToggle = this.sexGroup.getToggles().get(i);
+            sexToggle.setUserData(String.valueOf(i));
+        }
         //验证规则：　userName非空　password非空
         registerButton.disableProperty().bind(
                 Bindings.createBooleanBinding(
-                        () -> checkRegisterInfo(),
+                        () -> !checkRegisterInfo(),
                         userNameTextField.textProperty(),
                         passwordField.textProperty(),
                         ageTextField.textProperty(),
@@ -186,13 +189,18 @@ public class RegisterViewController implements ControlledStage , Initializable {
         },sex)){
             return false;
         }
-        int age=Integer.getInteger(ageTextField.getText());
+        String ageText=ageTextField.getText();
         if(!checkInput(s->{
-            if(age<0){
-                return "age input is error";
-            }
-            return "";
-        },age)){
+          try {
+              int age=Integer.parseInt(s);
+              if(age<0){
+                  return "low than 0 is not allowed";
+              }
+          }catch (NumberFormatException e){
+              return e.getMessage();
+          }
+          return "";
+        },ageText)){
             return false;
         }
         String signature=signatureTextField.getText();

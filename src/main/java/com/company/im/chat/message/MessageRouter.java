@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,42 +28,63 @@ public enum MessageRouter {
     **初始化msgPools
      */
     MessageRouter(){
-        var clazz= ClassScanner.getAllSubClass("com.company.im.chat.message",AbstractPacket.class);
-        clazz.forEach(c->{
+        var packetClazz= ClassScanner.getAllSubClass(
+                "com.company.im.chat.message", AbstractPacket.class);
+        packetClazz.forEach(c->{
             try {
-
                 var packetInstance=(AbstractPacket)c.getDeclaredConstructor().newInstance();
                 if(packetInstance==null){
                     logger.error(c.getName()+" cannot instance");
                 }
-                var oldMsgPacket=msgPools.put(packetInstance.getPacketID(), (Class<? extends AbstractPacket>) c);
+                var oldMsgPacket=msgPools.put
+                        (packetInstance.getPacketID(), (Class<? extends AbstractPacket>) c);
                 if(oldMsgPacket!=null){
                     logger.error(oldMsgPacket.toString()+" repeat register");
                     System.exit(1);
                 }
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
             }
+            catch (Exception e){
+                logger.error(e.getMessage()+" it will exit");
+            }
+        });
+        var handleClazz=ClassScanner.getAllSubClass(
+                "com.company.im.chat.message",MessageHandle.class);
+        handleClazz.forEach(c->{
+            Arrays.stream(c.getDeclaredMethods()).forEach(method->{
+                if(method.getParameterCount()==1){
+                    Class<?> parameterType=method.getParameterTypes()[0];
+                    if(AbstractPacket.class.isAssignableFrom(parameterType)&&
+                    !Modifier.isAbstract(parameterType.getModifiers())){
+                        MessageHandle msgHandle=null;
+                        try{
+                            AbstractPacket packet=(AbstractPacket)
+                                    parameterType.getDeclaredConstructor().newInstance();
+                            msgHandle=(MessageHandle) c.getDeclaredConstructor().newInstance();
+                            var oldHandle=msgHandles.put(packet.getPacketID(),msgHandle);
+                            if(oldHandle!=null){
+                                logger.error("repeat register handle"+packet.getPacketID());
+                                System.exit(-1);
+                            }
+                        }catch (Exception e){
+                            logger.error(e.getMessage());
+                        }
+                    }
+                }
+            });
         });
     }
 
-    /*
-    **注册消息处理器
-     */
-    public boolean registerHandle(int packetType,MessageHandle handle){
-        MessageHandle oldHandle=msgHandles.put(packetType,handle);
-        if(oldHandle!=null){
-            logger.error(packetType+"repeat register handle");
-            return false;
-        }
-        return true;
-    }
+//    /*
+//    **注册消息处理器
+//     */
+//    public boolean registerHandle(int packetType,MessageHandle handle){
+//        MessageHandle oldHandle=msgHandles.put(packetType,handle);
+//        if(oldHandle!=null){
+//            logger.error(packetType+"repeat register handle");
+//            return false;
+//        }
+//        return true;
+//    }
 
     /*
     **处理消息
@@ -88,16 +111,14 @@ public enum MessageRouter {
         }
         try{
             packet= packetClazz.getDeclaredConstructor().newInstance();
-        }
-        catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+        }catch (Exception e){
+            logger.error(e.getMessage());
         }
         return packet;
     }
+
+    public MessageHandle getHandle(int packetType){
+        return msgHandles.get(packetType);
+    }
+
 }
