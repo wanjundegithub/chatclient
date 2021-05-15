@@ -110,7 +110,7 @@
 			</image>
 		</ImageView>
 		<Label fx:id="usernameLabel" contentDisplay="CENTER" layoutX="95.0" layoutY="39.0"
-			   onMouseEntered="#username_entered" onMouseExited="#username_exited" text="username" textFill="WHITE">
+			   onMouseEntered="#username_entered" onMouseExited="#username_exited"  textFill="WHITE">
 			<font>
 				<Font size="20.0" />
 			</font>
@@ -119,7 +119,7 @@
 			</padding>
 		</Label>
 		<Label fx:id="signatureLabel" layoutX="95.0" layoutY="66.0"
-			   onMouseEntered="#autograph_entered" onMouseExited="#autograph_exited" prefHeight="18.0" prefWidth="193.0" text="" textFill="WHITE">
+			   onMouseEntered="#autograph_entered" onMouseExited="#autograph_exited" prefHeight="18.0" prefWidth="193.0" textFill="WHITE">
 			<font>
 				<Font size="17.0" />
 			</font>

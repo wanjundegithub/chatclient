@@ -9,7 +9,6 @@ import com.company.im.chat.ui.StageController;
 import com.company.im.chat.ui.UiBaseService;
 import com.company.im.chat.ui.View;
 import com.company.im.chat.ui.container.ImageContainer;
-import com.company.im.chat.util.LoggerUtil;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -61,13 +60,15 @@ public class RegisterViewController implements ControlledStage , Initializable {
             errorTipLabel.setText("can not connect server");
             return;
         }
-        String userName=userNameTextField.getText();
-        String password=passwordField.getText();
         String sexItem=sexGroup.getSelectedToggle().getUserData().toString();
         String sex=sexItem.equals("0")?StateHelper.Male:StateHelper.Female;
         int age=Integer.parseInt(ageTextField.getText());
-        String signature=signatureTextField.getText();
-        User user=User.createUser(userName,password,sex,age,signature);
+        User user=new User();
+        user.setUserName(userNameTextField.getText());
+        user.setPassword(passwordField.getText());
+        user.setSex(sex);
+        user.setAge(age);
+        user.setSignature(signatureTextField.getText());
         SpringContext.getUserService().requestRegister(user);
     }
 

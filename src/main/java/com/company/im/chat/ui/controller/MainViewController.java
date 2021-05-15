@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 /*
 **主界面
  */
-public class MainViewController implements ControlledStage{
+public class MainViewController implements ControlledStage,Initializable{
 
 	@FXML
 	private ImageView close;
@@ -48,19 +48,20 @@ public class MainViewController implements ControlledStage{
 
 	private static  final Logger logger= LoggerFactory.getLogger(MainViewController.class);
 
-//	private User userModel=SpringContext.getUserService().getUser();
+	private User userModel= SpringContext.getUserService().getUser();
 
-//    @Override
-//	public void initialize(URL location, ResourceBundle resources) {
-//    	if(userModel==null){
-//    		logger.info(" initial user failure");
-//    		return;
-//		}
-//		LoggerUtil.info("用户名:"+userModel.getUserName()+"用户签名:"+userModel.getSignature()
-//				,MainViewController.class);
-//		username.textProperty().bind(userModel.getUserNameProperty());
-//		signature.textProperty().bind(userModel.getPasswordProperty());
-//	}
+    @Override
+	public void initialize(URL location, ResourceBundle resources) {
+    	if(userModel==null){
+    		logger.info(" initial user failure");
+    		return;
+		}
+		LoggerUtil.info("用户名:"+userModel.getUserName()+"用户签名:"+userModel.getSignature()
+				,MainViewController.class);
+		usernameLabel.textProperty().bind(userModel.userNameProperty());
+		signatureLabel.textProperty().bind(userModel.signatureProperty());
+	}
+
 
 	@FXML
 	private void headEx() {

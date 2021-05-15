@@ -1,9 +1,7 @@
 package com.company.im.chat.message.user;
 
-import com.company.im.chat.common.PacketType;
 import com.company.im.chat.common.StateHelper;
 import com.company.im.chat.message.AbstractPacket;
-import com.company.im.chat.message.MessageRouter;
 import com.company.im.chat.message.user.req.ReqUserLoginPacket;
 import com.company.im.chat.message.user.req.ReqUserRegisterPacket;
 import com.company.im.chat.message.user.res.ResUserInfoPacket;
@@ -22,8 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-
 
 @Service
 public class UserService  {
@@ -37,7 +33,7 @@ public class UserService  {
         return user;
     }
 
-    public void setUser(User user) {
+    private void setUser(User user) {
         this.user = user;
     }
 
@@ -124,11 +120,14 @@ public class UserService  {
             logger.error("login user info from server is null");
             return;
         }
-        ResUserInfoPacket testPacket=(ResUserInfoPacket) packet;
-        logger.info("响应的用户名为:"+testPacket.getUserName()+"签名为:"+testPacket.getSignature());
         UiBaseService.INSTANCE.runTaskInFxThread(()-> {
             ResUserInfoPacket resUserInfoPacket=(ResUserInfoPacket) packet;
-            this.user=resUserInfoPacket.createUser();
+            user.setUserName(resUserInfoPacket.getUserName());
+            user.setPassword(resUserInfoPacket.getPassword());
+            user.setSex(resUserInfoPacket.getSex());
+            user.setAge(resUserInfoPacket.getAge());
+            user.setSignature(resUserInfoPacket.getSignature());
+            logger.info("用户信息:"+user.toString());
         });
     }
 
@@ -148,11 +147,6 @@ public class UserService  {
      */
     private void redirectToMainPanel() {
         StageController stageController = UiBaseService.INSTANCE.getStageController();
-        Stage stage = stageController.getStageBy(View.id.MainView);
-        Label userNameLabel=(Label) stage.getScene().getRoot().lookup("usernameLabel");
-        Label signatureLabel=(Label) stage.getScene().getRoot().lookup("signatureLabel");
-        userNameLabel.setText(user.getUserName());
-        signatureLabel.setText(user.getSignature());
         stageController.switchStage(View.id.MainView, View.id.LoginView);
 
     }

@@ -2,7 +2,6 @@ package com.company.im.chat.message.user.res;
 
 import com.company.im.chat.common.PacketType;
 import com.company.im.chat.message.AbstractPacket;
-import com.company.im.chat.model.User;
 import io.netty.buffer.ByteBuf;
 
 /**
@@ -43,9 +42,6 @@ public class ResUserInfoPacket extends AbstractPacket {
         signature=readByteToString(byteBuf);
     }
 
-    public User createUser(){
-        return new User(userName,password,sex,age,signature);
-    }
 
     public String getUserName() {
         return userName;
@@ -65,5 +61,14 @@ public class ResUserInfoPacket extends AbstractPacket {
 
     public String getSignature() {
         return signature;
+    }
+
+    @Override
+    public String toString() {
+        return "userName:"+userName
+                +",password:"+password
+                +",sex:"+sex
+                +",age:"+age
+                +",signature:"+signature;
     }
 }

@@ -11,7 +11,7 @@ public class User {
     //必须赋初始值
     private StringProperty userNameProperty=new SimpleStringProperty("");
 
-    private StringProperty passwordProperty=new SimpleStringProperty("");
+    private String password;
 
     private String sex;
 
@@ -19,40 +19,25 @@ public class User {
 
     private StringProperty signatureProperty=new SimpleStringProperty("");
 
-    public User(String userName, String password, String sex, int age, String signature) {
-        this.userNameProperty = new SimpleStringProperty(userName);
-        this.passwordProperty = new SimpleStringProperty(password);
-        this.sex = sex;
-        this.age = age;
-        this.signatureProperty=new SimpleStringProperty(signature);
-    }
 
-    public User(){
-
-    }
-
-    public static User createUser(String userName, String password, String sex, int age, String signature){
-        return new User(userName,password,sex,age,signature);
-    }
-
-    public final StringProperty getUserNameProperty(){
+    public final StringProperty userNameProperty() {
         return userNameProperty;
     }
 
-    public final StringProperty getPasswordProperty(){
-        return passwordProperty;
+    public void setUserName(String userName) {
+        this.userNameProperty.set(userName);
     }
 
     public String getUserName(){
         return userNameProperty.get();
     }
 
-    public String getPassword(){
-        return  passwordProperty.get();
+    public String getPassword() {
+        return password;
     }
 
-    public void setUserNameProperty(String userName){
-        this.userNameProperty=new SimpleStringProperty(userName);
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getSex() {
@@ -71,14 +56,22 @@ public class User {
         this.age = age;
     }
 
-    public String getSignature(){
-        return this.signatureProperty.get();
+    public String getSignature() {
+        return signatureProperty.get();
+    }
+
+    public final StringProperty signatureProperty() {
+        return signatureProperty;
+    }
+
+    public void setSignature(String signature) {
+        this.signatureProperty.set(signature);
     }
 
     @Override
     public String toString() {
         return "userName:"+userNameProperty.get()+
-                ",password:"+passwordProperty.get()+
+                ",password:"+password+
                 ",sex:"+sex+
                 ",age:"+age+
                 ",signature:"+signatureProperty.get();

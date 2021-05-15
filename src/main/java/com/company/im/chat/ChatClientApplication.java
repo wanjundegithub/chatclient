@@ -41,11 +41,8 @@ public class ChatClientApplication extends Application {
         double rightTopY = screen.getVisualBounds().getHeight()*0.05;
         mainStage.setX(rightTopX);
         mainStage.setY(rightTopY);
-
         stageController.loadStage(View.id.ChatToFriend, View.layout.ChatToFriend, StageStyle.UTILITY);
 
-        Stage searchStage = stageController.loadStage(View.id.SearchView, View.layout.SearchFriendView,
-                StageStyle.UTILITY);
 
         //显示MainView舞台
         stageController.setStage(View.id.LoginView);
