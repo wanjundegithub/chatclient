@@ -21,11 +21,13 @@ public class TestService {
 
     @Test
     public void testUserService(){
-        var service= SpringContext.getUserService();
-        if(service==null){
-            logger.error("userService is null");
-            return;
-        }
-        logger.info("service is not null");
+//        var service= SpringContext.getUserService();
+//        if(service==null){
+//            logger.error("userService is null");
+//            return;
+//        }
+        String a="qqq";
+        String b="sss";
+        logger.info("service {} is not null {}",a,b);
     }
 }

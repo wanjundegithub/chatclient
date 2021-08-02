@@ -49,19 +49,25 @@ public class ChatService  {
             return;
         }
         ResChatPacket resChatPacket=(ResChatPacket) packet;
-        String fromUserName=resChatPacket.getFromUserName();
+        String toUserName=resChatPacket.getFromUserName();
         String content=resChatPacket.getContent();
-        //界面处理
-        StageController stageController = UiBaseService.INSTANCE.getStageController();
-        Stage stage = stageController.getStageBy(View.id.ChatToFriend);
-        VBox msgContainer = (VBox)stage.getScene().getRoot().lookup("#msgContainer");
-
+        logger.info("接收者:{},接收消息:{}",toUserName,content);
         UiBaseService.INSTANCE.runTaskInFxThread(()-> {
+            //界面处理
+            StageController stageController = UiBaseService.INSTANCE.getStageController();
+            Stage stage = stageController.getStageBy(View.id.ChatToFriend);
+            VBox msgContainer = (VBox)stage.getScene().getRoot().lookup("#msgContainer");
+            if(msgContainer==null){
+                logger.info("接收者:"+toUserName+" 消息窗为空");
+            }
             Pane pane = null;
-            if (fromUserName.equals(SpringContext.getUserService().getUser().getUserName())) {
-                pane = stageController.load(View.layout.PrivateChatItemRight, Pane.class);
-            }else {
+            //发送者发送的消息在消息框左端显示
+            if (toUserName.equals(SpringContext.getUserService().getUser().getUserName())) {
                 pane = stageController.load(View.layout.PrivateChatItemLeft, Pane.class);
+            }
+            //接收者接收到的消息在消息框右端显示
+            else {
+                pane = stageController.load(View.layout.PrivateChatItemRight, Pane.class);
             }
             decorateChatRecord(content, pane);
             msgContainer.getChildren().add(pane);

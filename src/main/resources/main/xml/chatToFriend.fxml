@@ -68,8 +68,8 @@
 									layoutY="133.0" minHeight="300.0" orientation="VERTICAL"
 									prefHeight="300.0" prefWidth="450.0">
 									<items>
-										<Button mnemonicParsing="false" prefHeight="1.0"
-											text="%chat.loadmore" />
+<!--										<Button mnemonicParsing="false" prefHeight="1.0"-->
+<!--											text="%chat.loadmore" />-->
 										<ScrollPane fitToWidth="true" layoutY="20.0"
 											maxWidth="600.0">
 											<content>
@@ -84,7 +84,7 @@
 									<children>
 										<TextArea fx:id="msgInput" layoutY="-0.0" maxWidth="455.0"
 											minHeight="111.0" minWidth="400.0" prefHeight="163.0"
-											prefWidth="450.0" text="hello?" />
+											prefWidth="450.0"  />
 										<Button layoutX="360.0" layoutY="123.0"
 											mnemonicParsing="false" prefHeight="26.0" prefWidth="60.0"
 											text="%chat.send" onMouseClicked="#sendMessage" />
